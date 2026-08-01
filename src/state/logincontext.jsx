@@ -8,14 +8,7 @@ export function LoginProvider({ children }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState("");
 
-    function login(username, password) {
-        if (contas.some(conta => conta.username === username && conta.password === password)) {
-            setIsLoggedIn(true);
-            setUsername(username);
-            return true;
-        }
-        return false;
-    }
+    
     
 
     return (

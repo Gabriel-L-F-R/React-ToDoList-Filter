@@ -1,40 +1,16 @@
-import { useState, useMemo, useContext } from "react"
-import { useTodo } from "../../hooks/useTodo"
-import { useLogin } from "../../hooks/useLogin"
+import { useState, useMemo, useContext, useEffect } from "react"
 import { Container, Filtro, List, Tarefa } from "./styles"
+import {listaFiltrada, filtroState} from "../../state/lista"
+import loginState from "../../state/login"
+import { useSetRecoilState, useRecoilValue } from "recoil"
+import { useTarefas } from "../../hooks/useTarefas"
 
 export default function Lista() {
-    const { username } = useLogin()
-    const conteudo = useTodo()
-    const [filto, setFiltro] = useState([])
-    const listaFiltrada = useMemo(() => {
-        const listuser = conteudo.lista.filter(i => i.username === username)
-        return listuser.filter(i => {
-            if (filto === "concluidas") return i.concluida
-            if (filto === "pendentes") return !i.concluida
-            return true
-        })
-    }, [filto, conteudo.lista])
-
+    const { isLoggedIn, username } = useRecoilValue(loginState);
+    const lista = useRecoilValue(listaFiltrada)
+    const setFiltro = useSetRecoilState(filtroState)
     const [novaTarefa, setNovaTarefa] = useState("")
-    const { lista, setLista } = useTodo()
-
-
-    function salvar(e) {
-        e.preventDefault()
-        if (!novaTarefa) return
-
-        const novaTarefaObj = {
-            id: Date.now(),
-            username: username,
-            texto: novaTarefa,
-            concluida: false
-        }
-
-        setLista([...lista, novaTarefaObj])
-        setNovaTarefa("")
-
-    }
+    const { salvarTarefa, concluirTarefa, excluirTarefa } = useTarefas();
 
 
     return (
@@ -48,15 +24,15 @@ export default function Lista() {
             </Filtro>
             <List>
                 {
-                    listaFiltrada.map(i =>
+                    lista.map(i =>
                         <Tarefa key={i.id}>
                             <span>{i.texto}</span>
-                            <input type="checkbox" checked={i.concluida} onChange={() => conteudo.tarefaConcluida(i.id)} /> 
-                            <button onClick={() => conteudo.excluirTarefa(i.id)}>X</button>
+                            <input type="checkbox" checked={i.concluida} onChange={() => concluirTarefa(i.id)} />
+                            <button onClick={() => excluirTarefa(i.id)}>X</button>
                         </Tarefa>)
                 }
             </List>
-            <form onSubmit={salvar}>
+            <form onSubmit={(e) => salvarTarefa(e, username, novaTarefa, setNovaTarefa)}>
                 <input type="text" placeholder="Tarefa" value={novaTarefa} onChange={e => setNovaTarefa(e.target.value)} />
                 <button type="submit">+</button>
             </form>

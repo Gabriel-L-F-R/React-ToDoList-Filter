@@ -25,23 +25,8 @@ export function TodoProvider({ children }) {
 
     ])
 
-    
-    function tarefaConcluida(id) {
-        const novaLista = lista.map(tarefa => {
-            if (tarefa.id === id) {
-                return { ...tarefa, concluida: !tarefa.concluida }
-            }
-            return tarefa
-        })
-        setLista(novaLista)
-    }
-
-    function excluirTarefa(id) {
-        const novaLista = lista.filter(tarefa => tarefa.id !== id)
-        setLista(novaLista)
-    }
     return (
-        <TodoContext.Provider value={{ lista, setLista, tarefaConcluida, excluirTarefa }}>
+        <TodoContext.Provider value={{ lista, setLista}}>
             {children}
         </TodoContext.Provider>
     )

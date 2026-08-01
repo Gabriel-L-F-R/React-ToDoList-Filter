@@ -1,11 +1,11 @@
 import Lista from "../Lista/Lista";
 import Login from "../Login/Login";
-import { useLogin } from "../../hooks/useLogin";
-import { useState } from "react";
+import loginState from "../../state/login";
 import { Container, Title, Conteudo } from "./styles";
+import { useRecoilValue } from "recoil";
 
 export default function Home() {
-    const { isLoggedIn, username } = useLogin();
+    const { isLoggedIn, username } = useRecoilValue(loginState);
 
     return (
         <Container>
