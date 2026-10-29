@@ -16,12 +16,17 @@ export default function Login() {
             alert("Usuário ou senha inválidos");
         }
     }
+    function demonstração() {
+        setUsername("demo");
+        setPassword("demo123");
+    }
 
     return (
         <Container>
             <Title>Login</Title>
             <Campo type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
             <Campo type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <Button onClick={() => demonstração()}  >Conta de demonstração </Button>
             <Button onClick={() => login(username, password)}  >Login</Button>
         </Container>
     )

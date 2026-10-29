@@ -21,7 +21,19 @@ const listaState = atom({
             texto: "Estudar TypeScript",
             username: "Ana",
             concluida: false
-        }
+        },
+        {
+            id: 1713690000000,
+            texto: "Estudar React",
+            username: "demo",
+            concluida: false
+        },
+        {
+            id: 1713790000001,
+            texto: "Estudar JavaScript",
+            username: "demo",
+            concluida: false
+        },
 
     ]
 });
@@ -39,10 +51,10 @@ const listaFiltrada = selector({
         const { username } = get(loginState);
 
         return lista.filter(i => {
-            if (filtro === "concluidas" &&i.username === username) return i.concluida
+            if (filtro === "concluidas" && i.username === username) return i.concluida
             if (filtro === "pendentes" && i.username === username) return !i.concluida
             return i.username === username
-            
+
         })
     }
 })

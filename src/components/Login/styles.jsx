@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-    background-color: #636b8d;
+    background-color: #3b45633d;
     text-align: center;
     width: 70%;
-    height: 45%;
+    height: 55%;
     margin: 15% auto;
     border-radius: 10px;
     box-shadow: 5px 4px 10px 0px #0000009a;
@@ -12,7 +12,7 @@ export const Container = styled.div`
 `
 export const Title = styled.h1`
     font-size: 3em;
-    background-color: #5b7bf8;
+    background-color: #0F172A;
     color: #fff;
     border-radius: 10px 10px 0px 0px;
     width: 100%;
@@ -33,8 +33,8 @@ export const Button = styled.button`
     border-radius: 10px;
     border: 1px solid #0400df;
     padding: 10px;
-    background-color: #92a7f8;
-    color: #150070;
+    background-color: #2563EB;
+    color: #fff;
     cursor: pointer;
 
     &&:hover {

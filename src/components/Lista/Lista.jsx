@@ -1,16 +1,33 @@
-import { useState, useMemo, useContext, useEffect } from "react"
-import { Container, Filtro, List, Tarefa } from "./styles"
-import {listaFiltrada, filtroState} from "../../state/lista"
+import { useState} from "react"
+import { Container, Filtro, List, Tarefa, Button, Input } from "./styles"
+import {listaState, listaFiltrada, filtroState} from "../../state/lista"
 import loginState from "../../state/login"
-import { useSetRecoilState, useRecoilValue } from "recoil"
+import { useSetRecoilState, useRecoilState, useRecoilValue } from "recoil"
 import { useTarefas } from "../../hooks/useTarefas"
 
 export default function Lista() {
-    const { isLoggedIn, username } = useRecoilValue(loginState);
+    const { username } = useRecoilValue(loginState);
     const lista = useRecoilValue(listaFiltrada)
     const setFiltro = useSetRecoilState(filtroState)
     const [novaTarefa, setNovaTarefa] = useState("")
-    const { salvarTarefa, concluirTarefa, excluirTarefa } = useTarefas();
+    const { concluirTarefa, excluirTarefa } = useTarefas();
+    const [tarefasLista, setTarefasLista] = useRecoilState(listaState)
+    const salvarTarefa = (e, username, novaTarefa) => {
+        e.preventDefault()
+        if (!novaTarefa) return
+
+        const novaTarefaObj = {
+            id: Date.now(),
+            username: username,
+            texto: novaTarefa,
+            concluida: false
+        }
+
+        setTarefasLista([...tarefasLista, novaTarefaObj])
+        setNovaTarefa("")
+    }
+
+    
 
 
     return (
@@ -32,9 +49,9 @@ export default function Lista() {
                         </Tarefa>)
                 }
             </List>
-            <form onSubmit={(e) => salvarTarefa(e, username, novaTarefa, setNovaTarefa)}>
-                <input type="text" placeholder="Tarefa" value={novaTarefa} onChange={e => setNovaTarefa(e.target.value)} />
-                <button type="submit">+</button>
+            <form onSubmit={(e) => salvarTarefa(e, username, novaTarefa)}>
+                <Input type="text" placeholder="Tarefa" value={novaTarefa} onChange={e => setNovaTarefa(e.target.value)} />
+                <Button type="submit">+</Button>
             </form>
         </Container>
     )
